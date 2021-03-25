@@ -8,9 +8,10 @@ courses = []
 courses_id = []
 # List marks to store mark of courses and students
 marks = []
-marks_cid = []
 
 
+# Function to ask user to input number of student.
+# Print error and force the user to re-input if wrong data is given.
 def input_number_of_students():
     while True:
         number_of_students = int(input("- Enter number of students: "))
@@ -21,6 +22,8 @@ def input_number_of_students():
     return number_of_students
 
 
+# Function to ask user to input number of courses.
+# Print error and force the user to re-input if wrong data is given.
 def input_number_of_courses():
     while True:
         number_of_courses = int(input("Enter number of courses: "))
@@ -31,6 +34,7 @@ def input_number_of_courses():
     return number_of_courses
 
 
+# Create a dictionary holding a student's information and put it into list students[]
 def student(sid, name, dob):
     this_student = {
         "id": sid,
@@ -41,6 +45,7 @@ def student(sid, name, dob):
     students_id.append(sid)
 
 
+# Create a dictionary holding a course's information and put it into list courses[]
 def course(cid, name):
     this_course = {
         "id": cid,
@@ -50,6 +55,8 @@ def course(cid, name):
     courses_id.append(cid)
 
 
+# Create a dictionary holding a mark entity's information and put it into list marks[]
+# A mark entity will have a specified student ID, course ID and its value
 def mark(sid, cid, value):
     this_mark = {
         "sid": sid,
@@ -59,6 +66,7 @@ def mark(sid, cid, value):
     marks.append(this_mark)
 
 
+# Function to input a student information. Force the user to re-input if wrong data is given
 def input_student_information():
     while True:
         sid = input("- Enter student ID: ")
@@ -86,6 +94,7 @@ def input_student_information():
         student(sid, name, dob)
 
 
+# Function to input a course information. Force the user to re-input if wrong data is given
 def input_course_information():
     while True:
         cid = input("- Enter course ID: ")
@@ -107,6 +116,7 @@ def input_course_information():
         course(cid, name)
 
 
+# Function to input a mark entity information. Force the user to re-input if wrong data is given
 def input_course_mark(cid):
     for student in students:
         sid = student['id']
@@ -119,6 +129,7 @@ def input_course_mark(cid):
         mark(sid, cid, value)
 
 
+# Ask the user for the course ID whose mark should be input, then invoke the input_course_mark() function
 def input_mark():
     while True:
         cid = input("- Enter the course ID you want to input mark: ")
@@ -142,12 +153,14 @@ def input_mark():
             return -1
 
 
+# List all the courses
 def list_courses():
     print("Courses existing:")
     for course in courses:
         print("\t\t[%s]   %-20s" % (course['id'], course['name']))
 
 
+# List all the students
 def list_students():
     print("Students in class:")
     for student in students:
@@ -155,6 +168,7 @@ def list_students():
         print("\t\t[%s]    %-20s%s" % (student['id'], student['name'], student['dob']))
 
 
+# List all students with their marks for a specific course
 def list_course_marks(cid):
     for mark in marks:
         if mark['cid'] == cid:
@@ -164,6 +178,7 @@ def list_course_marks(cid):
                     print(f"{student['name']}\t\t|\t\t{mark['value']}")
 
 
+# Ask the user for the course ID whose mark should be listed, then invoke the list_course_marks() function
 def list_marks():
     while True:
         cid = input("- Enter the course ID you want to list marks: ")
@@ -174,6 +189,7 @@ def list_marks():
     list_course_marks(cid)
 
 
+# A method to start the program
 def start_engine():
     print("Initializing engine...\n")
     print("--- Student Manager ---\n")
@@ -185,12 +201,13 @@ def start_engine():
         if choice1 == 1:
             number_of_students = input_number_of_students()
             for i in range(number_of_students):
-                print(f"Student #{i+1}:")
+                print(f"Student #{i + 1}:")
                 input_student_information()
             while len(courses) == 0:
                 print("\n[1] Input number of courses and courses information")
                 print("[2] Cancel\n")
-                choice2 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+                choice2 = int(
+                    input("Select the functionality you want to proceed (by input the corresponding number): "))
                 if choice2 == 1:
                     number_of_courses = input_number_of_courses()
                     for i in range(number_of_courses):
@@ -206,7 +223,7 @@ def start_engine():
         elif choice1 == 2:
             number_of_courses = input_number_of_courses()
             for i in range(number_of_courses):
-                print(f"Course #{i+1}:")
+                print(f"Course #{i + 1}:")
                 input_course_information()
             while len(students) == 0:
                 print("\n[1] Input number of students and students information")
@@ -232,7 +249,7 @@ def start_engine():
         else:
             print("Error: Invalid choice.\n")
             exit()
-    while len(marks) < len(students)*len(courses):
+    while len(marks) < len(students) * len(courses):
         print("\n[1] Input mark for a course")
         print("[2] List students")
         print("[3] List courses")
