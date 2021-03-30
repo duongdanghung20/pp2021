@@ -175,7 +175,7 @@ def list_course_marks(cid):
             sid = mark['sid']
             for student in students:
                 if student['id'] == sid:
-                    print(f"{student['name']}\t\t|\t\t{mark['value']}")
+                    print(f"\t\t[%s]    %-20s%s" % (student['id'], student['name'], mark['value']))
 
 
 # Ask the user for the course ID whose mark should be listed, then invoke the list_course_marks() function
