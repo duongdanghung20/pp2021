@@ -149,7 +149,7 @@ def input_mark():
         elif len(cid) == 0 or cid is None:
             print("Error: Course ID cannot be empty.")
         else:
-            print("Error: there exist no course with that ID.")
+            print("Error: There exist no course with that ID.")
             return -1
 
 
@@ -186,7 +186,11 @@ def list_marks():
             print("Error: Course ID cannot be empty")
         else:
             break
-    list_course_marks(cid)
+    if cid in courses_id:
+        list_course_marks(cid)
+    else:
+        print("Error: There exist no course with that ID.")
+        return -1
 
 
 # A method to start the program
