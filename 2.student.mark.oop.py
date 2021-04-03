@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Constructor to create a class representing Student and store it to students[] list
 class Student:
     def __init__(self, engine, sid, name, dob):
@@ -307,5 +309,6 @@ class Engine:
                 print("Error: invalid choice.")
 
 
-e = Engine()
-e.start_engine()
+if __name__ == '__main__':
+    e = Engine()
+    e.start_engine()
