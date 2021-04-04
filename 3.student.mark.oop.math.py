@@ -1,15 +1,19 @@
 #!/usr/bin/python3
 
+
 import math
 import numpy as np
+import curses
 
 
-# Constructor to create a class representing Student and store it to students[] list
+# A class representing Student
 class Student:
-    def __init__(self, engine, sid, name, dob):
+    # A constructor to create a Student object and store it to students[] list
+    def __init__(self, engine, sid, name, dob, gpa=0):
         self.__sid = sid
         self.__name = name
         self.__dob = dob
+        self.__gpa = gpa
         engine.students.append(self)
         engine.students_id.append(self.__sid)
 
@@ -25,9 +29,18 @@ class Student:
     def get_dob(self):
         return self.__dob
 
+    # set the gpa of self
+    def set_gpa(self, gpa):
+        self.__gpa = gpa
 
-# Constructor to create a class representing Course and store it to courses[] list
+    # return the gpa of self
+    def get_gpa(self):
+        return self.__gpa
+
+
+# A class representing Course
 class Course:
+    # A constructor to create a Student object and store it to courses[] list
     def __init__(self, engine, cid, name, credit):
         self.__cid = cid
         self.__name = name
@@ -48,8 +61,9 @@ class Course:
         return self.__credit
 
 
-# Constructor to create a class representing Mark and store it to marks[] list
+# A class representing Course
 class Mark:
+    # A constructor to create a Mark object and store it to marks[] list
     def __init__(self, engine, sid, cid, value):
         self.__sid = sid
         self.__cid = cid
@@ -61,18 +75,6 @@ class Mark:
 
     def get_cid(self):
         return self.__cid
-
-    def get_value(self):
-        return self.__value
-
-class Gpa:
-    def __init__(self, engine, sid, value):
-        self.__sid = sid
-        self.__value = value
-        engine.gpas.append(self)
-
-    def get_sid(self):
-        return self.__sid
 
     def get_value(self):
         return self.__value
@@ -89,8 +91,6 @@ class Engine:
     courses_id = []
     # List marks to store mark objects that are the marks of courses and students
     marks = []
-    # List gpas to store gpa objects that are the average gpas of students
-    gpas = []
 
     number_of_students = None
     number_of_courses = None
@@ -110,7 +110,7 @@ class Engine:
     # Print error and force the user to re-input if wrong data is given.
     def input_number_of_courses(self):
         while True:
-            number_of_courses = int(input("Enter number of courses: "))
+            number_of_courses = int(input("- Enter number of courses: "))
             if number_of_courses < 0:
                 print("Error: number of courses must be non-negative")
             else:
@@ -213,13 +213,12 @@ class Engine:
     def list_courses(self):
         print("Courses existing:")
         for course in self.courses:
-            print("\t\t[%s]   %-20s%d credits" % (course.get_cid(), course.get_name(), course.get_credit))
+            print("\t\t[%s]   %-20s%d credits" % (course.get_cid(), course.get_name(), course.get_credit()))
 
     # List all the students
     def list_students(self):
         print("Students in class:")
         for student in self.students:
-            # print(f"[{student['id']}] {student['name']}")
             print("\t\t[%s]    %-20s%s" % (student.get_sid(), student.get_name(), student.get_dob()))
 
     # List all students with their marks for a specific course
@@ -247,12 +246,51 @@ class Engine:
 
     # A function to calculate average GPA for a specific student
     def calculate_student_gpa(self, sid):
-        gpa = 0
+        mark_values = np.array([])
+        course_credits = np.array([])
         for mark in self.marks:
             if mark.get_sid() == sid:
                 for course in self.courses:
                     if course.get_cid() == mark.get_cid():
-                        gpa += mark.get_value() * course.get_credit()
+                        mark_values = np.append(mark_values, mark.get_value())
+                        course_credits = np.append(course_credits, course.get_credit())
+        gpa = np.dot(mark_values, course_credits) / np.sum(course_credits)
+        rounded_gpa = math.floor(gpa * 10) / 10.0
+        # Add the value of attribute gpa for the student with ID specified
+        for student in self.students:
+            if student.get_sid() == sid:
+                student.set_gpa(rounded_gpa)
+
+    # Ask the user for the student ID whose GPA should be calculated, then invoke the calculate_student_gpa() function
+    def calculate_gpa(self):
+        while True:
+            sid = input("- Enter student ID that requires GPA calculating: ")
+            if len(sid) == 0 or sid is None:
+                print("Error: Student ID cannot be empty")
+            elif sid not in self.students_id:
+                print("Error: Student does not exist")
+            else:
+                break
+        for student in self.students:
+            if student.get_sid() == sid:
+                self.calculate_student_gpa(sid)
+                print("\t\t%s's GPA:    %-20.1f" % (student.get_name(), student.get_gpa()))
+                break
+
+    # A function to print a sorted student list by GPA descending
+    def print_sorted_list(self):
+        # Automatically calculate GPA for all students before printing a sorted list
+        new_student_list = []
+        for student in self.students:
+            self.calculate_student_gpa(student.get_sid())
+            new_student = (student.get_sid(), student.get_name(), student.get_gpa())
+            new_student_list.append(new_student)
+        # Make a copy of the student list using type numpy.array
+        np_student_list = np.array(new_student_list)
+        # Sort the student list in ascending order and then reverse it
+        sorted_student_list = np.sort(np_student_list)[::-1]
+        for student in sorted_student_list:
+            print("\t\t[%s]    %-20sGPA: %s" % (student[1], student[2], student[0]))
 
     # A method to start the program
     def start_engine(self):
@@ -335,7 +373,9 @@ class Engine:
             print("\n[1] List students")
             print("[2] List courses")
             print("[3] Show marks of a course")
-            print("[4] Cancel\n")
+            print("[4] Calculate GPA for a student")
+            print("[5] Print a sorted student list by GPA descending")
+            print("[6] Cancel\n")
             choice3 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
             if choice3 == 1:
                 self.list_students()
@@ -344,6 +384,10 @@ class Engine:
             elif choice3 == 3:
                 self.list_marks()
             elif choice3 == 4:
+                self.calculate_gpa()
+            elif choice3 == 5:
+                self.print_sorted_list()
+            elif choice3 == 6:
                 print("Good bye!")
                 exit()
             else:
