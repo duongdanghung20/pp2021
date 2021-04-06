@@ -99,9 +99,18 @@ class Engine:
     # Print error and force the user to re-input if wrong data is given.
     def input_number_of_students(self):
         while True:
-            number_of_students = int(input("- Enter number of students: "))
+            # number_of_students = int(input("- Enter number of students: "))
+            screen.addstr("- Enter number of students: ")
+            screen.refresh()
+            number_of_students = int(screen.getstr().decode())
             if number_of_students < 0:
-                print("Error: number of students must be non-negative")
+                # print("Error: number of students must be non-negative")
+                screen.addstr("\nError: number of students must be non-negative", curses.color_pair(1) | curses.A_BOLD |
+                              curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
                 break
         self.number_of_students = number_of_students
@@ -110,9 +119,18 @@ class Engine:
     # Print error and force the user to re-input if wrong data is given.
     def input_number_of_courses(self):
         while True:
-            number_of_courses = int(input("- Enter number of courses: "))
+            # number_of_courses = int(input("- Enter number of courses: "))
+            screen.addstr("- Enter number of courses: ")
+            screen.refresh()
+            number_of_courses = int(screen.getstr().decode())
             if number_of_courses < 0:
-                print("Error: number of courses must be non-negative")
+                # print("Error: number of courses must be non-negative")
+                screen.addstr("\nError: number of courses must be non-negative", curses.color_pair(1) | curses.A_BOLD |
+                              curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
                 break
         self.number_of_courses = number_of_courses
@@ -120,57 +138,131 @@ class Engine:
     # Function to input a student object information. Force the user to re-input if wrong data is given
     def input_student_information(self):
         while True:
-            sid = input("- Enter student ID: ")
+            # sid = input("- Enter student ID: ")
+            screen.addstr("- Enter student ID: ")
+            screen.refresh()
+            sid = screen.getstr().decode()
             if len(sid) == 0 or sid is None:
-                print("Error: Student ID cannot be empty")
+                # print("Error: Student ID cannot be empty")
+                screen.addstr("\nError: Student ID cannot be empty", curses.color_pair(1) | curses.A_BOLD |
+                              curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
                 break
         if sid in self.students_id:
-            print("Error: Student ID existed")
+            # print("Error: Student ID existed")
+            screen.addstr("\nError: Student ID existed", curses.color_pair(1) | curses.A_BOLD |
+                          curses.A_UNDERLINE | curses.A_BLINK)
+            screen.refresh()
+            curses.napms(3000)
+            screen.clear()
+            screen.refresh()
+            curses.endwin()
             exit()
         else:
             while True:
-                name = input("- Enter student name: ")
+                # name = input("- Enter student name: ")
+                screen.addstr("- Enter student name: ")
+                screen.refresh()
+                name = screen.getstr().decode()
                 if len(name) == 0 or name is None:
-                    print("Error: Student name cannot be empty")
+                    # print("Error: Student name cannot be empty")
+                    screen.addstr("\nError: Student name cannot be empty", curses.color_pair(1) | curses.A_BOLD |
+                                  curses.A_UNDERLINE | curses.A_BLINK)
+                    screen.refresh()
+                    curses.napms(3000)
+                    screen.clear()
+                    screen.refresh()
                 else:
                     break
             while True:
-                dob = input("- Enter student date of birth: ")
+                # dob = input("- Enter student date of birth: ")
+                screen.addstr("- Enter student date of birth: ")
+                screen.refresh()
+                dob = screen.getstr().decode()
                 if len(dob) == 0 or dob is None:
-                    print("Error: Student date of birth cannot be empty")
+                    # print("Error: Student date of birth cannot be empty")
+                    screen.addstr("\nError: Student date of birth cannot be empty", curses.color_pair(1) | curses.A_BOLD
+                                  | curses.A_UNDERLINE | curses.A_BLINK)
+                    screen.refresh()
+                    curses.napms(3000)
+                    screen.clear()
+                    screen.refresh()
                 else:
                     break
-            print(f"Added student: {name}")
+            screen.addstr(f"\nAdded student: {name}")
             Student(self, sid, name, dob)
 
     # Function to input a course object information. Force the user to re-input if wrong data is given
     def input_course_information(self):
         while True:
-            cid = input("- Enter course ID: ")
+            # cid = input("- Enter course ID: ")
+            screen.addstr("- Enter course ID: ")
+            screen.refresh()
+            cid = screen.getstr().decode()
             if len(cid) == 0 or cid is None:
-                print("Error: Course ID cannot be empty")
+                # print("Error: Course ID cannot be empty")
+                screen.addstr("\nError: Course ID cannot be empty", curses.color_pair(1) | curses.A_BOLD |
+                              curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
                 break
         if cid in self.courses_id:
-            print("Error: Course ID existed")
+            # print("Error: Course ID existed")
+            screen.addstr("\nError: Course ID existed", curses.color_pair(1) | curses.A_BOLD |
+                          curses.A_UNDERLINE | curses.A_BLINK)
+            screen.refresh()
+            curses.napms(3000)
+            screen.clear()
+            screen.refresh()
+            curses.endwin()
             exit()
         else:
             while True:
-                name = input("- Enter course name: ")
+                # name = input("- Enter course name: ")
+                screen.addstr("- Enter course name: ")
+                screen.refresh()
+                name = screen.getstr().decode()
                 if len(name) == 0 or name is None:
-                    print("Error: Course name cannot be empty")
+                    # print("Error: Course name cannot be empty")
+                    screen.addstr("\nError: Course name cannot be empty", curses.color_pair(1) | curses.A_BOLD |
+                                  curses.A_UNDERLINE | curses.A_BLINK)
+                    screen.refresh()
+                    curses.napms(3000)
+                    screen.clear()
+                    screen.refresh()
                 else:
                     break
             while True:
-                credit = int(input("- Enter course credits: "))
+                # credit = int(input("- Enter course credits: "))
+                screen.addstr("- Enter course credits: ")
+                screen.refresh()
+                credit = int(screen.getstr().decode())
                 if credit < 0:
-                    print("Error: Course credit must be non-negative")
+                    # print("Error: Course credit must be non-negative")
+                    screen.addstr("\nError: Course credit must be non-negative", curses.color_pair(1) | curses.A_BOLD |
+                                  curses.A_UNDERLINE | curses.A_BLINK)
+                    screen.refresh()
+                    curses.napms(3000)
+                    screen.clear()
+                    screen.refresh()
                 elif credit is None:
-                    print("Error: Course credit cannot be empty")
+                    # print("Error: Course credit cannot be empty")
+                    screen.addstr("\nError: Course credit cannot be empty", curses.color_pair(1) | curses.A_BOLD |
+                                  curses.A_UNDERLINE | curses.A_BLINK)
+                    screen.refresh()
+                    curses.napms(3000)
+                    screen.clear()
+                    screen.refresh()
                 else:
                     break
-            print(f"Added course: {name}")
+            screen.addstr(f"Added course: {name}")
             Course(self, cid, name, credit)
 
     # Function to input a mark object information. Force the user to re-input if wrong data is given
@@ -178,10 +270,19 @@ class Engine:
         for student in self.students:
             sid = student.get_sid()
             while True:
-                value = float(input(f"- Enter mark for {student.get_name()}: "))
+                # value = float(input(f"- Enter mark for {student.get_name()}: "))
+                screen.addstr(f"- Enter mark for {student.get_name()}: ")
+                screen.refresh()
+                value = float(screen.getstr().decode())
                 value = math.floor(value * 10) / 10.0
                 if value < 0:
-                    print("Error: Mark must be non-negative")
+                    # print("Error: Mark must be non-negative")
+                    screen.addstr("\nError: Mark must be non-negative", curses.color_pair(1) | curses.A_BOLD |
+                                  curses.A_UNDERLINE | curses.A_BLINK)
+                    screen.refresh()
+                    curses.napms(3000)
+                    screen.clear()
+                    screen.refresh()
                 else:
                     break
             Mark(self, sid, cid, value)
@@ -189,13 +290,24 @@ class Engine:
     # Ask the user for the course ID whose mark should be input, then invoke the input_course_mark() function
     def input_mark(self):
         while True:
-            cid = input("- Enter the course ID you want to input mark: ")
+            # cid = input("- Enter the course ID you want to input mark: ")
+            screen.addstr("- Enter the course ID you want to input mark: ")
+            screen.refresh()
+            cid = screen.getstr().decode()
+            screen.clear()
+            screen.refresh()
             if cid in self.courses_id:
                 if len(self.marks) > 0:
                     existed = False
                     for mark in self.marks:
                         if mark.get_cid() == cid:
-                            print("Error: You've already input mark for this course.")
+                            # print("Error: You've already input mark for this course.")
+                            screen.addstr("\nError: You've already input mark for this course.", curses.color_pair(1) |
+                                          curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                            screen.refresh()
+                            curses.napms(3000)
+                            screen.clear()
+                            screen.refresh()
                             existed = True
                             break
                     if not existed:
@@ -204,22 +316,42 @@ class Engine:
                     self.input_course_mark(cid)
                 break
             elif len(cid) == 0 or cid is None:
-                print("Error: Course ID cannot be empty.")
+                # print("Error: Course ID cannot be empty.")
+                screen.addstr("\nError: Course ID cannot be empty.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
-                print("Error: There exist no course with that ID.")
+                # print("Error: There exist no course with that ID.")
+                screen.addstr("\nError: There exist no course with that ID.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
                 return -1
 
     # List all the courses
     def list_courses(self):
-        print("Courses existing:")
+        # print("Courses existing:")
+        screen.addstr("Courses existing:")
+        screen.refresh()
         for course in self.courses:
-            print("\t\t[%s]   %-20s%d credits" % (course.get_cid(), course.get_name(), course.get_credit()))
+            # print("\t\t[%s]   %-20s%d credits" % (course.get_cid(), course.get_name(), course.get_credit()))
+            screen.addstr("\n\t\t[%s]   %-20s%d credits" % (course.get_cid(), course.get_name(), course.get_credit()))
+            screen.refresh()
 
     # List all the students
     def list_students(self):
-        print("Students in class:")
+        # print("Students in class:")
+        screen.addstr("Students in class:")
+        screen.refresh()
         for student in self.students:
-            print("\t\t[%s]    %-20s%s" % (student.get_sid(), student.get_name(), student.get_dob()))
+            # print("\t\t[%s]    %-20s%s" % (student.get_sid(), student.get_name(), student.get_dob()))
+            screen.addstr("\n\t\t[%s]    %-20s%s" % (student.get_sid(), student.get_name(), student.get_dob()))
+            screen.refresh()
 
     # List all students with their marks for a specific course
     def list_course_marks(self, cid):
@@ -228,20 +360,38 @@ class Engine:
                 sid = mark.get_sid()
                 for student in self.students:
                     if student.get_sid() == sid:
-                        print(f"\t\t[%s]    %-20s%s" % (student.get_sid(), student.get_name(), mark.get_value()))
+                        screen.addstr(f"\n\t\t[%s]    %-20s%s" % (student.get_sid(), student.get_name(),
+                                                                  mark.get_value()))
+                        screen.refresh()
 
     # Ask the user for the course ID whose mark should be listed, then invoke the list_course_marks() function
     def list_marks(self):
         while True:
-            cid = input("- Enter the course ID you want to list marks: ")
+            # cid = input("- Enter the course ID you want to list marks: ")
+            screen.addstr("- Enter the course ID you want to list marks: ")
+            screen.refresh()
+            cid = screen.getstr().decode()
             if len(cid) == 0 or cid is None:
-                print("Error: Course ID cannot be empty")
+                # print("Error: Course ID cannot be empty")
+                screen.addstr("\nError: Course ID cannot be empty.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
                 break
         if cid in self.courses_id:
+            curses.curs_set(0)
             self.list_course_marks(cid)
         else:
-            print("Error: There exist no course with that ID.")
+            # print("Error: There exist no course with that ID.")
+            screen.addstr("\nError: There exist no course with that ID.", curses.color_pair(1) |
+                          curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+            screen.refresh()
+            curses.napms(3000)
+            screen.clear()
+            screen.refresh()
             return -1
 
     # A function to calculate average GPA for a specific student
@@ -264,17 +414,34 @@ class Engine:
     # Ask the user for the student ID whose GPA should be calculated, then invoke the calculate_student_gpa() function
     def calculate_gpa(self):
         while True:
-            sid = input("- Enter student ID that requires GPA calculating: ")
+            # sid = input("- Enter student ID that requires GPA calculating: ")
+            screen.addstr("- Enter student ID that requires GPA calculating: ")
+            screen.refresh()
+            sid = screen.getstr().decode()
             if len(sid) == 0 or sid is None:
-                print("Error: Student ID cannot be empty")
+                # print("Error: Student ID cannot be empty")
+                screen.addstr("\nError: Student ID cannot be empty.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             elif sid not in self.students_id:
-                print("Error: Student does not exist")
+                # print("Error: Student does not exist")
+                screen.addstr("\nError: Student does not exist.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
             else:
                 break
         for student in self.students:
             if student.get_sid() == sid:
                 self.calculate_student_gpa(sid)
-                print("\t\t%s's GPA:    %-20.1f" % (student.get_name(), student.get_gpa()))
+                curses.curs_set(0)
+                screen.addstr("\n\t\t%s's GPA:    %-20.1f" % (student.get_name(), student.get_gpa()))
+                screen.refresh()
                 break
 
     # A function to print a sorted student list by GPA descending
@@ -290,110 +457,281 @@ class Engine:
         # Sort the student list in ascending order and then reverse it
         sorted_student_list = np.sort(np_student_list)[::-1]
         for student in sorted_student_list:
-            print("\t\t[%s]    %-20sGPA: %s" % (student[1], student[2], student[0]))
+            screen.addstr("\t\t[%s]    %-20sGPA: %s\n" % (student[1], student[2], student[0]))
+            screen.refresh()
 
     # A method to start the program
     def start_engine(self):
-        print("Initializing engine...\n")
-        print("--- Student Manager ---\n")
-        print("\n[1] Input number of student and students information")
-        print("[2] Input number of courses and courses information")
-        print("[3] Cancel\n")
-        choice1 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+
+        # print("Initializing engine...\n")
+        # print("--- Student Manager ---\n")
+
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
+        num_rows, num_cols = screen.getmaxyx()
+
+        # Make a function to print a line in the center of screen
+        def print_center(message):
+            # Calculate center row
+            middle_row = int(num_rows / 2)
+
+            # Calculate center column, and then adjust starting position based
+            # on the length of the message
+            half_length_of_message = int(len(message) / 2)
+            middle_column = int(num_cols / 2)
+            x_position = middle_column - half_length_of_message
+
+            # Draw the text
+            if message == "--- Student Manager ---":
+                screen.addstr(middle_row, x_position, message, curses.A_BOLD)
+                screen.refresh()
+            else:
+                screen.addstr(middle_row, x_position, message)
+                screen.refresh()
+
+        curses.curs_set(0)
+        screen.refresh()
+        print_center("Initializing engine")
+        curses.napms(500)
+        for i in range(3):
+            screen.addstr(".")
+            screen.refresh()
+            curses.napms(500)
+        screen.clear()
+        screen.refresh()
+        curses.napms(500)
+        print_center("--- Student Manager ---")
+        screen.refresh()
+        curses.napms(2000)
+        screen.clear()
+        screen.refresh()
+
+        # print("\n[1] Input number of student and students information")
+        # print("[2] Input number of courses and courses information")
+        # print("[3] Cancel\n")
+
+        curses.curs_set(1)
+        screen.addstr("[1] Input number of student and students information")
+        screen.addstr("\n[2] Input number of courses and courses information")
+        screen.addstr("\n[3] Cancel\n")
+
+        # choice1 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+        screen.addstr("Select the functionality you want to proceed (by input the corresponding number): ")
+        screen.refresh()
+        choice1 = int(screen.getstr().decode())
         while True:
             if choice1 == 1:
+                screen.clear()
+                screen.refresh()
                 self.input_number_of_students()
+                screen.clear()
+                screen.refresh()
                 for i in range(self.number_of_students):
-                    print(f"Student #{i + 1}:")
+                    # print(f"Student #{i + 1}:")
+                    screen.addstr(f"Student #{i + 1}:\n")
+                    screen.refresh()
                     self.input_student_information()
+                    screen.clear()
+                    screen.refresh()
                 while len(self.courses) == 0:
-                    print("\n[1] Input number of courses and courses information")
-                    print("[2] Cancel\n")
-                    choice2 = int(
-                        input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    screen.addstr("[1] Input number of courses and courses information")
+                    screen.addstr("\n[2] Cancel\n")
+                    screen.refresh()
+                    # choice2 = int(
+                    #     input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    screen.addstr("Select the functionality you want to proceed (by input the corresponding number): ")
+                    screen.refresh()
+                    choice2 = int(screen.getstr().decode())
                     if choice2 == 1:
+                        screen.clear()
+                        screen.refresh()
                         self.input_number_of_courses()
+                        screen.clear()
+                        screen.refresh()
                         for i in range(self.number_of_courses):
-                            print(f"Course #{i + 1}:")
+                            # print(f"Course #{i + 1}:")
+                            screen.addstr(f"Course #{i + 1}:\n")
+                            screen.refresh()
                             self.input_course_information()
+                            screen.clear()
+                            screen.refresh()
                         break
                     elif choice2 == 2:
-                        print("Good bye!")
+                        # print("Good bye!")
+                        screen.addstr("Good bye!")
+                        screen.refresh()
+                        curses.napms(1000)
+                        curses.endwin()
                         exit()
                     else:
-                        print("Error: Invalid choice.")
+                        # print("Error: Invalid choice.")
+                        screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
+                                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                        screen.refresh()
+                        curses.napms(3000)
+                        screen.clear()
+                        screen.refresh()
                 break
             elif choice1 == 2:
                 self.input_number_of_courses()
                 for i in range(self.number_of_courses):
-                    print(f"Course #{i + 1}:")
+                    # print(f"Course #{i + 1}:")
+                    screen.addstr(f"Course #{i + 1}:\n")
+                    screen.refresh()
                     self.input_course_information()
+                    screen.clear()
+                    screen.refresh()
                 while len(self.students) == 0:
-                    print("\n[1] Input number of students and students information")
-                    print("[2] Cancel\n")
-                    choice2 = int(
-                        input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    screen.addstr("\n[1] Input number of students and students information")
+                    screen.addstr("[2] Cancel\n")
+                    screen.refresh()
+                    # choice2 = int(
+                    #     input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    screen.addstr("Select the functionality you want to proceed (by input the corresponding number): ")
+                    screen.refresh()
+                    choice2 = int(screen.getstr().decode())
                     if choice2 == 1:
                         self.input_number_of_students()
+                        screen.clear()
+                        screen.refresh()
                         for i in range(self.number_of_students):
-                            print(f"Student #{i + 1}:")
+                            # print(f"Student #{i + 1}:")
+                            screen.addstr(f"Student #{i + 1}:\n")
+                            screen.refresh()
                             self.input_student_information()
+                            screen.clear()
+                            screen.refresh()
                         break
                     elif choice2 == 2:
-                        print("Good bye!")
+                        # print("Good bye!")
+                        screen.addstr("Good bye!")
+                        screen.refresh()
+                        curses.napms(1000)
+                        curses.endwin()
                         exit()
                     else:
-                        print("Error: Invalid choice.")
+                        # print("Error: Invalid choice.")
+                        screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
+                                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                        screen.refresh()
+                        curses.napms(3000)
+                        screen.clear()
+                        screen.refresh()
                         break
                 break
             elif choice1 == 3:
-                print("Good bye!")
+                # print("Good bye!")
+                screen.addstr("Good bye!")
+                screen.refresh()
+                curses.napms(1000)
+                curses.endwin()
                 exit()
             else:
-                print("Error: Invalid choice.\n")
+                # print("Error: Invalid choice.\n")
+                screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
+                curses.endwin()
                 exit()
         while len(self.marks) < len(self.students) * len(self.courses):
-            print("\n[1] Input mark for a course")
-            print("[2] List students")
-            print("[3] List courses")
-            print("[4] Cancel\n")
-            choice3 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+            screen.clear()
+            screen.refresh()
+            screen.addstr("[1] Input mark for a course")
+            screen.addstr("\n[2] List students")
+            screen.addstr("\n[3] List courses")
+            screen.addstr("\n[4] Cancel\n")
+            # choice3 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+            screen.addstr("Select the functionality you want to proceed (by input the corresponding number): ")
+            screen.refresh()
+            choice3 = int(screen.getstr().decode())
+            screen.clear()
+            screen.refresh()
             if choice3 == 1:
                 self.input_mark()
             elif choice3 == 2:
+                curses.curs_set(0)
                 self.list_students()
+                curses.napms(self.number_of_students * 1000)
+                curses.curs_set(1)
             elif choice3 == 3:
+                curses.curs_set(0)
                 self.list_courses()
+                curses.napms(self.number_of_courses * 1000)
+                curses.curs_set(1)
             elif choice3 == 4:
-                print("Good bye!")
+                # print("Good bye!")
+                screen.addstr("Good bye!")
+                screen.refresh()
+                curses.napms(1000)
+                curses.endwin()
                 exit()
             else:
-                print("Error: invalid choice.")
+                # print("Error: invalid choice.")
+                screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
         while True:
-            print("\n[1] List students")
-            print("[2] List courses")
-            print("[3] Show marks of a course")
-            print("[4] Calculate GPA for a student")
-            print("[5] Print a sorted student list by GPA descending")
-            print("[6] Cancel\n")
-            choice3 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
-            if choice3 == 1:
+            screen.clear()
+            screen.refresh()
+            screen.addstr("[1] List students")
+            screen.addstr("\n[2] List courses")
+            screen.addstr("\n[3] Show marks of a course")
+            screen.addstr("\n[4] Calculate GPA for a student")
+            screen.addstr("\n[5] Print a sorted student list by GPA descending")
+            screen.addstr("\n[6] Cancel\n")
+            # choice4 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+            screen.addstr("Select the functionality you want to proceed (by input the corresponding number): ")
+            screen.refresh()
+            choice4 = int(screen.getstr().decode())
+            screen.clear()
+            screen.refresh()
+            if choice4 == 1:
+                curses.curs_set(0)
                 self.list_students()
-            elif choice3 == 2:
+                curses.napms(self.number_of_students * 1000)
+                curses.curs_set(1)
+            elif choice4 == 2:
+                curses.curs_set(0)
                 self.list_courses()
-            elif choice3 == 3:
+                curses.napms(self.number_of_courses * 1000)
+                curses.curs_set(1)
+            elif choice4 == 3:
                 self.list_marks()
-            elif choice3 == 4:
+                curses.napms(self.number_of_students * 1000)
+                curses.curs_set(1)
+            elif choice4 == 4:
                 self.calculate_gpa()
-            elif choice3 == 5:
+                curses.napms(1000)
+                curses.curs_set(1)
+            elif choice4 == 5:
+                curses.curs_set(0)
                 self.print_sorted_list()
-            elif choice3 == 6:
-                print("Good bye!")
+                curses.napms(self.number_of_students * 1000)
+                curses.curs_set(1)
+            elif choice4 == 6:
+                # print("Good bye!")
+                screen.addstr("Good bye!")
+                screen.refresh()
+                curses.napms(1000)
+                curses.endwin()
                 exit()
             else:
-                print("Error: invalid choice.")
+                # print("Error: invalid choice.")
+                screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
+                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                screen.refresh()
+                curses.napms(3000)
+                screen.clear()
+                screen.refresh()
 
 
 if __name__ == '__main__':
+    screen = curses.initscr()
     e = Engine()
     e.start_engine()
