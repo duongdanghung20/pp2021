@@ -80,6 +80,16 @@ class Mark:
         return self.__value
 
 
+# Define a method to print error
+def print_error(error):
+    screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
+                  curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+    screen.refresh()
+    curses.napms(3000)
+    screen.clear()
+    screen.refresh()
+
+
 class Engine:
     # List students to store student objects
     students = []
@@ -105,12 +115,7 @@ class Engine:
             number_of_students = int(screen.getstr().decode())
             if number_of_students < 0:
                 # print("Error: number of students must be non-negative")
-                screen.addstr("\nError: number of students must be non-negative", curses.color_pair(1) | curses.A_BOLD |
-                              curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("number of students must be non-negative")
             else:
                 break
         self.number_of_students = number_of_students
@@ -125,12 +130,7 @@ class Engine:
             number_of_courses = int(screen.getstr().decode())
             if number_of_courses < 0:
                 # print("Error: number of courses must be non-negative")
-                screen.addstr("\nError: number of courses must be non-negative", curses.color_pair(1) | curses.A_BOLD |
-                              curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("number of courses must be non-negative")
             else:
                 break
         self.number_of_courses = number_of_courses
@@ -144,22 +144,12 @@ class Engine:
             sid = screen.getstr().decode()
             if len(sid) == 0 or sid is None:
                 # print("Error: Student ID cannot be empty")
-                screen.addstr("\nError: Student ID cannot be empty", curses.color_pair(1) | curses.A_BOLD |
-                              curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Student ID cannot be empty")
             else:
                 break
         if sid in self.students_id:
             # print("Error: Student ID existed")
-            screen.addstr("\nError: Student ID existed", curses.color_pair(1) | curses.A_BOLD |
-                          curses.A_UNDERLINE | curses.A_BLINK)
-            screen.refresh()
-            curses.napms(3000)
-            screen.clear()
-            screen.refresh()
+            print_error("Student ID existed")
             curses.endwin()
             exit()
         else:
@@ -170,12 +160,7 @@ class Engine:
                 name = screen.getstr().decode()
                 if len(name) == 0 or name is None:
                     # print("Error: Student name cannot be empty")
-                    screen.addstr("\nError: Student name cannot be empty", curses.color_pair(1) | curses.A_BOLD |
-                                  curses.A_UNDERLINE | curses.A_BLINK)
-                    screen.refresh()
-                    curses.napms(3000)
-                    screen.clear()
-                    screen.refresh()
+                    print_error("Student name cannot be empty")
                 else:
                     break
             while True:
@@ -185,12 +170,7 @@ class Engine:
                 dob = screen.getstr().decode()
                 if len(dob) == 0 or dob is None:
                     # print("Error: Student date of birth cannot be empty")
-                    screen.addstr("\nError: Student date of birth cannot be empty", curses.color_pair(1) | curses.A_BOLD
-                                  | curses.A_UNDERLINE | curses.A_BLINK)
-                    screen.refresh()
-                    curses.napms(3000)
-                    screen.clear()
-                    screen.refresh()
+                    print_error("Student date of birth cannot be empty")
                 else:
                     break
             screen.addstr(f"\nAdded student: {name}")
@@ -205,22 +185,12 @@ class Engine:
             cid = screen.getstr().decode()
             if len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty")
-                screen.addstr("\nError: Course ID cannot be empty", curses.color_pair(1) | curses.A_BOLD |
-                              curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Course ID cannot be empty")
             else:
                 break
         if cid in self.courses_id:
             # print("Error: Course ID existed")
-            screen.addstr("\nError: Course ID existed", curses.color_pair(1) | curses.A_BOLD |
-                          curses.A_UNDERLINE | curses.A_BLINK)
-            screen.refresh()
-            curses.napms(3000)
-            screen.clear()
-            screen.refresh()
+            print_error("Course ID existed")
             curses.endwin()
             exit()
         else:
@@ -231,12 +201,7 @@ class Engine:
                 name = screen.getstr().decode()
                 if len(name) == 0 or name is None:
                     # print("Error: Course name cannot be empty")
-                    screen.addstr("\nError: Course name cannot be empty", curses.color_pair(1) | curses.A_BOLD |
-                                  curses.A_UNDERLINE | curses.A_BLINK)
-                    screen.refresh()
-                    curses.napms(3000)
-                    screen.clear()
-                    screen.refresh()
+                    print_error("Course name cannot be empty")
                 else:
                     break
             while True:
@@ -246,20 +211,10 @@ class Engine:
                 credit = int(screen.getstr().decode())
                 if credit < 0:
                     # print("Error: Course credit must be non-negative")
-                    screen.addstr("\nError: Course credit must be non-negative", curses.color_pair(1) | curses.A_BOLD |
-                                  curses.A_UNDERLINE | curses.A_BLINK)
-                    screen.refresh()
-                    curses.napms(3000)
-                    screen.clear()
-                    screen.refresh()
+                    print_error("Course credit must be non-negative")
                 elif credit is None:
                     # print("Error: Course credit cannot be empty")
-                    screen.addstr("\nError: Course credit cannot be empty", curses.color_pair(1) | curses.A_BOLD |
-                                  curses.A_UNDERLINE | curses.A_BLINK)
-                    screen.refresh()
-                    curses.napms(3000)
-                    screen.clear()
-                    screen.refresh()
+                    print_error("Course credit cannot be empty")
                 else:
                     break
             screen.addstr(f"Added course: {name}")
@@ -277,12 +232,7 @@ class Engine:
                 value = math.floor(value * 10) / 10.0
                 if value < 0:
                     # print("Error: Mark must be non-negative")
-                    screen.addstr("\nError: Mark must be non-negative", curses.color_pair(1) | curses.A_BOLD |
-                                  curses.A_UNDERLINE | curses.A_BLINK)
-                    screen.refresh()
-                    curses.napms(3000)
-                    screen.clear()
-                    screen.refresh()
+                    print_error("Mark must me non-negative")
                 else:
                     break
             Mark(self, sid, cid, value)
@@ -302,12 +252,7 @@ class Engine:
                     for mark in self.marks:
                         if mark.get_cid() == cid:
                             # print("Error: You've already input mark for this course.")
-                            screen.addstr("\nError: You've already input mark for this course.", curses.color_pair(1) |
-                                          curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                            screen.refresh()
-                            curses.napms(3000)
-                            screen.clear()
-                            screen.refresh()
+                            print_error("You've already input mark for this course")
                             existed = True
                             break
                     if not existed:
@@ -317,20 +262,10 @@ class Engine:
                 break
             elif len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty.")
-                screen.addstr("\nError: Course ID cannot be empty.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Course ID cannot be empty")
             else:
                 # print("Error: There exist no course with that ID.")
-                screen.addstr("\nError: There exist no course with that ID.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("There exist no course with that ID")
                 return -1
 
     # List all the courses
@@ -373,12 +308,7 @@ class Engine:
             cid = screen.getstr().decode()
             if len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty")
-                screen.addstr("\nError: Course ID cannot be empty.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Course ID cannot be empty")
             else:
                 break
         if cid in self.courses_id:
@@ -386,12 +316,7 @@ class Engine:
             self.list_course_marks(cid)
         else:
             # print("Error: There exist no course with that ID.")
-            screen.addstr("\nError: There exist no course with that ID.", curses.color_pair(1) |
-                          curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-            screen.refresh()
-            curses.napms(3000)
-            screen.clear()
-            screen.refresh()
+            print_error("There exist no course with that ID")
             return -1
 
     # A function to calculate average GPA for a specific student
@@ -420,20 +345,10 @@ class Engine:
             sid = screen.getstr().decode()
             if len(sid) == 0 or sid is None:
                 # print("Error: Student ID cannot be empty")
-                screen.addstr("\nError: Student ID cannot be empty.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Student ID cannot be empty")
             elif sid not in self.students_id:
                 # print("Error: Student does not exist")
-                screen.addstr("\nError: Student does not exist.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Student does not exist")
             else:
                 break
         for student in self.students:
@@ -565,15 +480,14 @@ class Engine:
                         exit()
                     else:
                         # print("Error: Invalid choice.")
-                        screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                        screen.refresh()
-                        curses.napms(3000)
-                        screen.clear()
-                        screen.refresh()
+                        print_error("Invalid choice")
                 break
             elif choice1 == 2:
+                screen.clear()
+                screen.refresh()
                 self.input_number_of_courses()
+                screen.clear()
+                screen.refresh()
                 for i in range(self.number_of_courses):
                     # print(f"Course #{i + 1}:")
                     screen.addstr(f"Course #{i + 1}:\n")
@@ -582,8 +496,8 @@ class Engine:
                     screen.clear()
                     screen.refresh()
                 while len(self.students) == 0:
-                    screen.addstr("\n[1] Input number of students and students information")
-                    screen.addstr("[2] Cancel\n")
+                    screen.addstr("[1] Input number of students and students information")
+                    screen.addstr("\n[2] Cancel\n")
                     screen.refresh()
                     # choice2 = int(
                     #     input("Select the functionality you want to proceed (by input the corresponding number): "))
@@ -591,6 +505,8 @@ class Engine:
                     screen.refresh()
                     choice2 = int(screen.getstr().decode())
                     if choice2 == 1:
+                        screen.clear()
+                        screen.refresh()
                         self.input_number_of_students()
                         screen.clear()
                         screen.refresh()
@@ -611,12 +527,7 @@ class Engine:
                         exit()
                     else:
                         # print("Error: Invalid choice.")
-                        screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                        screen.refresh()
-                        curses.napms(3000)
-                        screen.clear()
-                        screen.refresh()
+                        print_error("Invalid choice")
                         break
                 break
             elif choice1 == 3:
@@ -628,12 +539,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: Invalid choice.\n")
-                screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Invalid choice")
                 curses.endwin()
                 exit()
         while len(self.marks) < len(self.students) * len(self.courses):
@@ -670,12 +576,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: invalid choice.")
-                screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Invalid choice")
         while True:
             screen.clear()
             screen.refresh()
@@ -723,12 +624,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: invalid choice.")
-                screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                              curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                screen.refresh()
-                curses.napms(3000)
-                screen.clear()
-                screen.refresh()
+                print_error("Invalid choice")
 
 
 if __name__ == '__main__':
