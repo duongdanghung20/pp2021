@@ -1,7 +1,16 @@
-# import main
 import input
 import output
 import curses
+
+
+# Define a method to print error
+def print_error(error):
+    screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
+                  curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+    screen.refresh()
+    curses.napms(3000)
+    screen.clear()
+    screen.refresh()
 
 
 class Engine:
@@ -130,15 +139,14 @@ class Engine:
                         exit()
                     else:
                         # print("Error: Invalid choice.")
-                        self.__screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                             curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                        self.__screen.refresh()
-                        curses.napms(3000)
-                        self.__screen.clear()
-                        self.__screen.refresh()
+                        print_error("Invalid choice")
                 break
             elif choice1 == 2:
+                self.__screen.clear()
+                self.__screen.refresh()
                 self.__input.input_number_of_courses(self)
+                self.__screen.clear()
+                self.__screen.refresh()
                 for i in range(self.number_of_courses):
                     # print(f"Course #{i + 1}:")
                     self.__screen.addstr(f"Course #{i + 1}:\n")
@@ -147,8 +155,8 @@ class Engine:
                     self.__screen.clear()
                     self.__screen.refresh()
                 while len(self.students) == 0:
-                    self.__screen.addstr("\n[1] Input number of students and students information")
-                    self.__screen.addstr("[2] Cancel\n")
+                    self.__screen.addstr("[1] Input number of students and students information")
+                    self.__screen.addstr("\n[2] Cancel\n")
                     self.__screen.refresh()
                     # choice2 = int(
                     #     input("Select the functionality you want to proceed (by input the corresponding number): "))
@@ -157,6 +165,8 @@ class Engine:
                     self.__screen.refresh()
                     choice2 = int(self.__screen.getstr().decode())
                     if choice2 == 1:
+                        self.__screen.clear()
+                        self.__screen.refresh()
                         self.__input.input_number_of_students(self)
                         self.__screen.clear()
                         self.__screen.refresh()
@@ -177,12 +187,7 @@ class Engine:
                         exit()
                     else:
                         # print("Error: Invalid choice.")
-                        self.__screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                             curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                        self.__screen.refresh()
-                        curses.napms(3000)
-                        self.__screen.clear()
-                        self.__screen.refresh()
+                        print_error("Invalid choice")
                         break
                 break
             elif choice1 == 3:
@@ -194,12 +199,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: Invalid choice.\n")
-                self.__screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                     curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                self.__screen.refresh()
-                curses.napms(3000)
-                self.__screen.clear()
-                self.__screen.refresh()
+                print_error("Invalid choice")
                 curses.endwin()
                 exit()
         while len(self.marks) < len(self.students) * len(self.courses):
@@ -236,12 +236,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: invalid choice.")
-                self.__screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                     curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                self.__screen.refresh()
-                curses.napms(3000)
-                self.__screen.clear()
-                self.__screen.refresh()
+                print_error("Invalid choice")
         while True:
             self.__screen.clear()
             self.__screen.refresh()
@@ -289,9 +284,4 @@ class Engine:
                 exit()
             else:
                 # print("Error: invalid choice.")
-                self.__screen.addstr("\nError: Invalid choice.", curses.color_pair(1) |
-                                     curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                self.__screen.refresh()
-                curses.napms(3000)
-                self.__screen.clear()
-                self.__screen.refresh()
+                print_error("Invalid choice")

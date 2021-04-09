@@ -4,6 +4,16 @@ import numpy as np
 import math
 
 
+# Define a method to print error
+def print_error(error):
+    screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
+                  curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+    screen.refresh()
+    curses.napms(3000)
+    screen.clear()
+    screen.refresh()
+
+
 class Output:
     def __init__(self, scr):
         self.__screen = scr
@@ -49,12 +59,7 @@ class Output:
             cid = self.__screen.getstr().decode()
             if len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty")
-                self.__screen.addstr("\nError: Course ID cannot be empty.", curses.color_pair(1) |
-                                     curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                self.__screen.refresh()
-                curses.napms(3000)
-                self.__screen.clear()
-                self.__screen.refresh()
+                print_error("Course ID cannot be empty")
             else:
                 break
         if cid in engine.courses_id:
@@ -62,12 +67,7 @@ class Output:
             self.list_course_marks(engine, cid)
         else:
             # print("Error: There exist no course with that ID.")
-            self.__screen.addstr("\nError: There exist no course with that ID.", curses.color_pair(1) |
-                                 curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-            self.__screen.refresh()
-            curses.napms(3000)
-            self.__screen.clear()
-            self.__screen.refresh()
+            print_error("There exist no course with that ID")
             return -1
 
     # A function to calculate average GPA for a specific student
@@ -96,20 +96,10 @@ class Output:
             sid = self.__screen.getstr().decode()
             if len(sid) == 0 or sid is None:
                 # print("Error: Student ID cannot be empty")
-                self.__screen.addstr("\nError: Student ID cannot be empty.", curses.color_pair(1) |
-                                     curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                self.__screen.refresh()
-                curses.napms(3000)
-                self.__screen.clear()
-                self.__screen.refresh()
+                print_error("Student ID cannot be empty")
             elif sid not in engine.students_id:
                 # print("Error: Student does not exist")
-                self.__screen.addstr("\nError: Student does not exist.", curses.color_pair(1) |
-                                     curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-                self.__screen.refresh()
-                curses.napms(3000)
-                self.__screen.clear()
-                self.__screen.refresh()
+                print_error("Student does not exist")
             else:
                 break
         for student in engine.students:
