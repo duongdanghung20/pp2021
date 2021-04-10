@@ -173,7 +173,11 @@ class Engine:
                     print_error("Student date of birth cannot be empty")
                 else:
                     break
+            curses.curs_set(0)
             screen.addstr(f"\nAdded student: {name}")
+            screen.refresh()
+            curses.napms(1000)
+            curses.curs_set(1)
             Student(self, sid, name, dob)
 
     # Function to input a course object information. Force the user to re-input if wrong data is given
@@ -217,7 +221,11 @@ class Engine:
                     print_error("Course credit cannot be empty")
                 else:
                     break
-            screen.addstr(f"Added course: {name}")
+            curses.curs_set(0)
+            screen.addstr(f"\nAdded course: {name}")
+            screen.refresh()
+            curses.napms(1000)
+            curses.curs_set(1)
             Course(self, cid, name, credit)
 
     # Function to input a mark object information. Force the user to re-input if wrong data is given
@@ -367,12 +375,19 @@ class Engine:
             self.calculate_student_gpa(student.get_sid())
             new_student = (student.get_sid(), student.get_name(), student.get_gpa())
             new_student_list.append(new_student)
-        # Make a copy of the student list using type numpy.array
-        np_student_list = np.array(new_student_list)
+        # Make a copy of the student list using type numpy.array (Attributes type str will be converted to type bytes)
+        dtype = [('sid', 'S10'), ('name', 'S30'), ('gpa', float)]
+        np_student_list = np.array(new_student_list, dtype=dtype)
         # Sort the student list in ascending order and then reverse it
-        sorted_student_list = np.sort(np_student_list)[::-1]
+        sorted_student_list = np.sort(np_student_list, order='gpa')[::-1]
+        # Make a copy of the sorted student list with attributes type bytes converted back to type str
+        new_sorted_student_list = []
         for student in sorted_student_list:
-            screen.addstr("\t\t[%s]    %-20sGPA: %s\n" % (student[1], student[2], student[0]))
+            decoded_student = (student[0].decode(), student[1].decode(), student[2])
+            new_sorted_student_list.append(decoded_student)
+        # Print the final sorted student list
+        for student in new_sorted_student_list:
+            screen.addstr("\t\t[%s]    %-20sGPA: %s\n" % (student[0], student[1], student[2]))
             screen.refresh()
 
     # A method to start the program

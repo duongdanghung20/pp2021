@@ -3,16 +3,6 @@ import output
 import curses
 
 
-# Define a method to print error
-def print_error(error):
-    screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
-                  curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-    screen.refresh()
-    curses.napms(3000)
-    screen.clear()
-    screen.refresh()
-
-
 class Engine:
     # List students to store student objects
     students = []
@@ -32,6 +22,15 @@ class Engine:
         self.__screen = scr
         self.__input = input.Input(scr)
         self.__output = output.Output(scr)
+
+    # Define a method to print error
+    def print_error(self, error):
+        self.__screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
+                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+        self.__screen.refresh()
+        curses.napms(3000)
+        self.__screen.clear()
+        self.__screen.refresh()
 
     # A method to start the program
     def start_engine(self):
@@ -139,7 +138,7 @@ class Engine:
                         exit()
                     else:
                         # print("Error: Invalid choice.")
-                        print_error("Invalid choice")
+                        self.print_error("Invalid choice")
                 break
             elif choice1 == 2:
                 self.__screen.clear()
@@ -187,7 +186,7 @@ class Engine:
                         exit()
                     else:
                         # print("Error: Invalid choice.")
-                        print_error("Invalid choice")
+                        self.print_error("Invalid choice")
                         break
                 break
             elif choice1 == 3:
@@ -199,7 +198,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: Invalid choice.\n")
-                print_error("Invalid choice")
+                self.print_error("Invalid choice")
                 curses.endwin()
                 exit()
         while len(self.marks) < len(self.students) * len(self.courses):
@@ -236,7 +235,7 @@ class Engine:
                 exit()
             else:
                 # print("Error: invalid choice.")
-                print_error("Invalid choice")
+                self.print_error("Invalid choice")
         while True:
             self.__screen.clear()
             self.__screen.refresh()
@@ -284,4 +283,4 @@ class Engine:
                 exit()
             else:
                 # print("Error: invalid choice.")
-                print_error("Invalid choice")
+                self.print_error("Invalid choice")

@@ -5,19 +5,18 @@ from domains.Course import *
 from domains.Mark import *
 
 
-# Define a method to print error
-def print_error(error):
-    screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
-                  curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-    screen.refresh()
-    curses.napms(3000)
-    screen.clear()
-    screen.refresh()
-
-
 class Input:
     def __init__(self, scr):
         self.__screen = scr
+
+    # Define a method to print error
+    def print_error(self, error):
+        self.__screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
+                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+        self.__screen.refresh()
+        curses.napms(3000)
+        self.__screen.clear()
+        self.__screen.refresh()
 
     # Function to ask user to input number of student.
     # Print error and force the user to re-input if wrong data is given.
@@ -29,7 +28,7 @@ class Input:
             number_of_students = int(self.__screen.getstr().decode())
             if number_of_students < 0:
                 # print("Error: number of students must be non-negative")
-                print_error("number of students must be non-negative")
+                self.print_error("number of students must be non-negative")
             else:
                 break
         engine.number_of_students = number_of_students
@@ -44,7 +43,7 @@ class Input:
             number_of_courses = int(self.__screen.getstr().decode())
             if number_of_courses < 0:
                 # print("Error: number of courses must be non-negative")
-                print_error("number of courses must be non-negative")
+                self.print_error("number of courses must be non-negative")
             else:
                 break
         engine.number_of_courses = number_of_courses
@@ -58,12 +57,12 @@ class Input:
             sid = self.__screen.getstr().decode()
             if len(sid) == 0 or sid is None:
                 # print("Error: Student ID cannot be empty")
-                print_error("Student ID cannot be empty")
+                self.print_error("Student ID cannot be empty")
             else:
                 break
         if sid in engine.students_id:
             # print("Error: Student ID existed")
-            print_error("Student ID existed")
+            self.print_error("Student ID existed")
             curses.endwin()
             exit()
         else:
@@ -74,7 +73,7 @@ class Input:
                 name = self.__screen.getstr().decode()
                 if len(name) == 0 or name is None:
                     # print("Error: Student name cannot be empty")
-                    print_error("Student name cannot be empty")
+                    self.print_error("Student name cannot be empty")
                 else:
                     break
             while True:
@@ -84,10 +83,14 @@ class Input:
                 dob = self.__screen.getstr().decode()
                 if len(dob) == 0 or dob is None:
                     # print("Error: Student date of birth cannot be empty")
-                    print_error("Student date of birth cannot be empty")
+                    self.print_error("Student date of birth cannot be empty")
                 else:
                     break
+            curses.curs_set(0)
             self.__screen.addstr(f"\nAdded student: {name}")
+            self.__screen.refresh()
+            curses.napms(1000)
+            curses.curs_set(1)
             Student(engine, sid, name, dob)
 
     # Function to input a course object information. Force the user to re-input if wrong data is given
@@ -99,12 +102,12 @@ class Input:
             cid = self.__screen.getstr().decode()
             if len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty")
-                print_error("Course ID cannot be empty")
+                self.print_error("Course ID cannot be empty")
             else:
                 break
         if cid in engine.courses_id:
             # print("Error: Course ID existed")
-            print_error("Course ID existed")
+            self.print_error("Course ID existed")
             curses.endwin()
             exit()
         else:
@@ -115,7 +118,7 @@ class Input:
                 name = self.__screen.getstr().decode()
                 if len(name) == 0 or name is None:
                     # print("Error: Course name cannot be empty")
-                    print_error("Course name cannot be empty")
+                    self.print_error("Course name cannot be empty")
                 else:
                     break
             while True:
@@ -125,13 +128,17 @@ class Input:
                 credit = int(self.__screen.getstr().decode())
                 if credit < 0:
                     # print("Error: Course credit must be non-negative")
-                    print_error("Course credit must be non-negative")
+                    self.print_error("Course credit must be non-negative")
                 elif credit is None:
                     # print("Error: Course credit cannot be empty")
-                    print_error("Course credit cannot be empty")
+                    self.print_error("Course credit cannot be empty")
                 else:
                     break
-            self.__screen.addstr(f"Added course: {name}")
+            curses.curs_set(0)
+            self.__screen.addstr(f"\nAdded course: {name}")
+            self.__screen.refresh()
+            curses.napms(1000)
+            curses.curs_set(1)
             Course(engine, cid, name, credit)
 
     # Function to input a mark object information. Force the user to re-input if wrong data is given
@@ -146,7 +153,7 @@ class Input:
                 value = math.floor(value * 10) / 10.0
                 if value < 0:
                     # print("Error: Mark must be non-negative")
-                    print_error("Mark must be non-negative")
+                    self.print_error("Mark must be non-negative")
                 else:
                     break
             Mark(engine, sid, cid, value)
@@ -166,7 +173,7 @@ class Input:
                     for mark in engine.marks:
                         if mark.get_cid() == cid:
                             # print("Error: You've already input mark for this course.")
-                            print_error("You've already input mark for this course")
+                            self.print_error("You've already input mark for this course")
                             existed = True
                             break
                     if not existed:
@@ -176,8 +183,8 @@ class Input:
                 break
             elif len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty.")
-                print_error("Course ID cannot be empty")
+                self.print_error("Course ID cannot be empty")
             else:
                 # print("Error: There exist no course with that ID.")
-                print_error("There exist no course with that ID")
+                self.print_error("There exist no course with that ID")
                 return -1

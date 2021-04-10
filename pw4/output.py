@@ -4,19 +4,18 @@ import numpy as np
 import math
 
 
-# Define a method to print error
-def print_error(error):
-    screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
-                  curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-    screen.refresh()
-    curses.napms(3000)
-    screen.clear()
-    screen.refresh()
-
-
 class Output:
     def __init__(self, scr):
         self.__screen = scr
+
+    # Define a method to print error
+    def print_error(self, error):
+        self.__screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
+                             curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+        self.__screen.refresh()
+        curses.napms(3000)
+        self.__screen.clear()
+        self.__screen.refresh()
 
     # List all the courses
     def list_courses(self, engine):
@@ -59,7 +58,7 @@ class Output:
             cid = self.__screen.getstr().decode()
             if len(cid) == 0 or cid is None:
                 # print("Error: Course ID cannot be empty")
-                print_error("Course ID cannot be empty")
+                self.print_error("Course ID cannot be empty")
             else:
                 break
         if cid in engine.courses_id:
@@ -67,7 +66,7 @@ class Output:
             self.list_course_marks(engine, cid)
         else:
             # print("Error: There exist no course with that ID.")
-            print_error("There exist no course with that ID")
+            self.print_error("There exist no course with that ID")
             return -1
 
     # A function to calculate average GPA for a specific student
@@ -96,10 +95,10 @@ class Output:
             sid = self.__screen.getstr().decode()
             if len(sid) == 0 or sid is None:
                 # print("Error: Student ID cannot be empty")
-                print_error("Student ID cannot be empty")
+                self.print_error("Student ID cannot be empty")
             elif sid not in engine.students_id:
                 # print("Error: Student does not exist")
-                print_error("Student does not exist")
+                self.print_error("Student does not exist")
             else:
                 break
         for student in engine.students:
@@ -119,9 +118,16 @@ class Output:
             new_student = (student.get_sid(), student.get_name(), student.get_gpa())
             new_student_list.append(new_student)
         # Make a copy of the student list using type numpy.array
-        np_student_list = np.array(new_student_list)
+        dtype = [('sid', 'S10'), ('name', 'S30'), ('gpa', float)]
+        np_student_list = np.array(new_student_list, dtype=dtype)
         # Sort the student list in ascending order and then reverse it
-        sorted_student_list = np.sort(np_student_list)[::-1]
+        sorted_student_list = np.sort(np_student_list, order='gpa')[::-1]
+        # Make a copy of the sorted student list with attributes type bytes converted back to type str
+        new_sorted_student_list = []
         for student in sorted_student_list:
-            self.__screen.addstr("\t\t[%s]    %-20sGPA: %s\n" % (student[1], student[2], student[0]))
+            decoded_student = (student[0].decode(), student[1].decode(), student[2])
+            new_sorted_student_list.append(decoded_student)
+        # Print the final sorted student list
+        for student in new_sorted_student_list:
+            self.__screen.addstr("\t\t[%s]    %-20sGPA: %s\n" % (student[0], student[1], student[2]))
             self.__screen.refresh()
