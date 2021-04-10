@@ -131,9 +131,11 @@ class Engine:
                         break
                     elif choice2 == 2:
                         # print("Good bye!")
-                        self.__screen.addstr("Good bye!")
-                        self.__screen.refresh()
+                        self.__screen.clear()
+                        curses.curs_set(0)
+                        print_center("Good bye!")
                         curses.napms(1000)
+                        curses.curs_set(1)
                         curses.endwin()
                         exit()
                     else:
@@ -179,9 +181,11 @@ class Engine:
                         break
                     elif choice2 == 2:
                         # print("Good bye!")
-                        self.__screen.addstr("Good bye!")
-                        self.__screen.refresh()
+                        self.__screen.clear()
+                        curses.curs_set(0)
+                        print_center("Good bye!")
                         curses.napms(1000)
+                        curses.curs_set(1)
                         curses.endwin()
                         exit()
                     else:
@@ -191,9 +195,11 @@ class Engine:
                 break
             elif choice1 == 3:
                 # print("Good bye!")
-                self.__screen.addstr("Good bye!")
-                self.__screen.refresh()
+                self.__screen.clear()
+                curses.curs_set(0)
+                print_center("Good bye!")
                 curses.napms(1000)
+                curses.curs_set(1)
                 curses.endwin()
                 exit()
             else:
@@ -228,9 +234,11 @@ class Engine:
                 curses.curs_set(1)
             elif choice3 == 4:
                 # print("Good bye!")
-                self.__screen.addstr("Good bye!")
-                self.__screen.refresh()
+                self.__screen.clear()
+                curses.curs_set(0)
+                print_center("Good bye!")
                 curses.napms(1000)
+                curses.curs_set(1)
                 curses.endwin()
                 exit()
             else:
@@ -276,9 +284,11 @@ class Engine:
                 curses.curs_set(1)
             elif choice4 == 6:
                 # print("Good bye!")
-                self.__screen.addstr("Good bye!")
-                self.__screen.refresh()
+                self.__screen.clear()
+                curses.curs_set(0)
+                print_center("Good bye!")
                 curses.napms(1000)
+                curses.curs_set(1)
                 curses.endwin()
                 exit()
             else:
