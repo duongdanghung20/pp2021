@@ -1,0 +1,6 @@
+MATH1.1
+Linear Algebra
+4
+MATH1.4
+Calculus
+4
