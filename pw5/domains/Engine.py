@@ -28,7 +28,7 @@ class Engine:
     # Define a method to print error
     def print_error(self, error):
         self.__screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
-                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                             curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
         self.__screen.refresh()
         curses.napms(3000)
         self.__screen.clear()
@@ -80,18 +80,81 @@ class Engine:
         self.__screen.clear()
         self.__screen.refresh()
 
-        if os.path.isfile('students.dat'):
+        # Upon starting the program
+        if os.path.isfile('students.dat'):  # Check if students.dat exist
             zip_file = zipfile.ZipFile('students.dat', 'r')
-            zip_file.extractall()
-            if os.path.isfile('students.txt'):
-                f = open('students.txt', 'r').read().splitlines()
-                self.__input.input_number_of_students(len(f)/3)
-                for i in range(len(f)):
-
-
-
-
-
+            zip_file.extractall()  # Extract the students.dat file
+            if os.path.isfile('students.txt'):  # Load data from students.txt
+                sf = open('students.txt', 'r').read().splitlines()
+                self.number_of_students = int(len(sf) / 3)
+                for i in range(self.number_of_students):
+                    input.input_student(self, sf[i * 3], sf[i * 3 + 1], sf[i * 3 + 2])
+            if os.path.isfile('courses.txt'):  # Load data from courses.txt
+                cf = open('courses.txt', 'r').read().splitlines()
+                self.number_of_courses = int(len(cf) / 3)
+                for i in range(self.number_of_courses):
+                    input.input_course(self, cf[i * 3], cf[i * 3 + 1], int(cf[i * 3 + 2]))
+            if os.path.isfile('marks.txt'):  # Load data from marks.txt
+                mf = open('marks.txt', 'r').read().splitlines()
+                for i in range(int(len(mf) / 3)):
+                    input.input_mark(self, mf[i * 3], mf[i * 3 + 1], float(mf[i * 3 + 2]))
+            # Jump directly to choice 4 (Use directly the data from students.dat and skip all the input parts)
+            while True:
+                self.__screen.clear()
+                self.__screen.refresh()
+                self.__screen.addstr("[1] List students")
+                self.__screen.addstr("\n[2] List courses")
+                self.__screen.addstr("\n[3] Show marks of a course")
+                self.__screen.addstr("\n[4] Calculate GPA for a student")
+                self.__screen.addstr("\n[5] Print a sorted student list by GPA descending")
+                self.__screen.addstr("\n[6] Cancel\n")
+                # choice4 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+                self.__screen.addstr("Select the functionality you want to proceed (by input the corresponding number): ")
+                self.__screen.refresh()
+                choice4 = int(self.__screen.getstr().decode())
+                self.__screen.clear()
+                self.__screen.refresh()
+                if choice4 == 1:
+                    curses.curs_set(0)
+                    self.__output.list_students(self)
+                    curses.napms(self.number_of_students * 1000)
+                    curses.curs_set(1)
+                elif choice4 == 2:
+                    curses.curs_set(0)
+                    self.__output.list_courses(self)
+                    curses.napms(self.number_of_courses * 1000)
+                    curses.curs_set(1)
+                elif choice4 == 3:
+                    self.__output.list_marks(self)
+                    curses.napms(self.number_of_students * 1000)
+                    curses.curs_set(1)
+                elif choice4 == 4:
+                    self.__output.calculate_gpa(self)
+                    curses.napms(1000)
+                    curses.curs_set(1)
+                elif choice4 == 5:
+                    curses.curs_set(0)
+                    self.__output.print_sorted_list(self)
+                    curses.napms(self.number_of_students * 1000)
+                    curses.curs_set(1)
+                elif choice4 == 6:
+                    # print("Good bye!")
+                    self.__screen.clear()
+                    curses.curs_set(0)
+                    print_center("Good bye!")
+                    curses.napms(1000)
+                    curses.curs_set(1)
+                    curses.endwin()
+                    file_list = ['students.txt', 'courses.txt', 'marks.txt']
+                    with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                        for file_name in file_list:
+                            new_zip.write(file_name)
+                    for file_name in file_list:
+                        os.remove(file_name)
+                    exit()
+                else:
+                    # print("Error: invalid choice.")
+                    self.print_error("Invalid choice")
 
         # print("\n[1] Input number of student and students information")
         # print("[2] Input number of courses and courses information")
@@ -321,6 +384,8 @@ class Engine:
                 with zipfile.ZipFile('students.dat', 'w') as new_zip:
                     for file_name in file_list:
                         new_zip.write(file_name)
+                for file_name in file_list:
+                    os.remove(file_name)
                 exit()
             else:
                 # print("Error: invalid choice.")

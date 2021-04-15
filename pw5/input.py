@@ -5,6 +5,21 @@ from domains.Course import *
 from domains.Mark import *
 
 
+# A function to directly input a student object
+def input_student(engine, sid, name, dob):
+    Student(engine, sid, name, dob)
+
+
+# A function to directly input a course object
+def input_course(engine, sid, name, dob):
+    Course(engine, sid, name, dob)
+
+
+# A function to directly input a mark object
+def input_mark(engine, sid, cid, value):
+    Mark(engine, sid, cid, value)
+
+
 class Input:
     def __init__(self, scr):
         self.__screen = scr
@@ -12,7 +27,7 @@ class Input:
     # Define a method to print error
     def print_error(self, error):
         self.__screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
-                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
+                             curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
         self.__screen.refresh()
         curses.napms(3000)
         self.__screen.clear()
