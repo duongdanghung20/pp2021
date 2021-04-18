@@ -81,8 +81,8 @@ class Engine:
         self.__screen.clear()
         self.__screen.refresh()
 
-        # Upon starting the program
-        if os.path.isfile('students.dat'):  # Check if students.dat exist
+        # Upon starting the program, check if students.dat exists
+        if os.path.isfile('students.dat'):
             # zip_file = zipfile.ZipFile('students.dat', 'r')
             # zip_file.extractall()  # Extract the students.dat file
             # if os.path.isfile('students.txt'):  # Load data from students.txt and input to students[]
@@ -100,20 +100,192 @@ class Engine:
             #     for i in range(int(len(mf) / 3)):
             #         input.input_mark(self, mf[i * 3], mf[i * 3 + 1], float(mf[i * 3 + 2]))
             with open('students.dat', 'rb') as new_zip:
+
+                # Check if there are data of students.
+                #   If yes
+                #       Load it into the Engine.
+                #   Else
+                #       Ask the user to input students data or exit.
                 self.number_of_students = pickle.load(new_zip)
-                for i in range(self.number_of_students):
-                    student = pickle.load(new_zip)
-                    self.students.append(student)
-                    self.students_id.append(student.get_sid())
+                if not self.number_of_students == 0:
+                    for i in range(self.number_of_students):
+                        student = pickle.load(new_zip)
+                        self.students.append(student)
+                        self.students_id.append(student.get_sid())
+                else:
+                    curses.curs_set(1)
+                    while len(self.students) == 0:
+                        self.__screen.addstr("[1] Input number of students and students information")
+                        self.__screen.addstr("\n[2] Cancel\n")
+                        self.__screen.refresh()
+                        # choice2 = int(
+                        #     input("Select the functionality you want to proceed (by input the corresponding number): "))
+                        self.__screen.addstr(
+                            "Select the functionality you want to proceed (by input the corresponding number): ")
+                        self.__screen.refresh()
+                        choice2 = int(self.__screen.getstr().decode())
+                        if choice2 == 1:
+                            self.__screen.clear()
+                            self.__screen.refresh()
+                            self.__input.input_number_of_students(self)
+                            self.__screen.clear()
+                            self.__screen.refresh()
+                            for i in range(self.number_of_students):
+                                # print(f"Student #{i + 1}:")
+                                self.__screen.addstr(f"Student #{i + 1}:\n")
+                                self.__screen.refresh()
+                                self.__input.input_student_information(self)
+                                self.__screen.clear()
+                                self.__screen.refresh()
+                            break
+                        elif choice2 == 2:
+                            # print("Good bye!")
+                            self.__screen.clear()
+                            curses.curs_set(0)
+                            print_center("Good bye!")
+                            curses.napms(1000)
+                            curses.curs_set(1)
+                            curses.endwin()
+                            # file_list = ['courses.txt']
+                            # with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                            #     for file_name in file_list:
+                            #         new_zip.write(file_name)
+                            with open('students.dat', 'wb') as new_zip2:
+                                pickle.dump(len(self.students), new_zip2)
+                                pickle.dump(len(self.courses), new_zip2)
+                                for student in self.courses:
+                                    pickle.dump(student, new_zip2)
+                                pickle.dump(len(self.marks), new_zip2)
+                            exit()
+                        else:
+                            # print("Error: Invalid choice.")
+                            self.print_error("Invalid choice")
+                            break
+
+                # Check if there are data of courses.
+                #   If yes
+                #       Load it into the Engine.
+                #   Else
+                #       Ask the user to input courses data or exit.
                 self.number_of_courses = pickle.load(new_zip)
-                for i in range(self.number_of_courses):
-                    course = pickle.load(new_zip)
-                    self.courses.append(course)
-                    self.courses_id.append(course.get_cid())
-                for i in range(pickle.load(new_zip)):
-                    mark = pickle.load(new_zip)
-                    self.marks.append(mark)
-            # Jump directly to choice 4 (Use directly the data from students.dat and skip all the input parts)
+                if not self.number_of_courses == 0:
+                    for i in range(self.number_of_courses):
+                        course = pickle.load(new_zip)
+                        self.courses.append(course)
+                        self.courses_id.append(course.get_cid())
+                else:
+                    curses.curs_set(1)
+                    while len(self.courses) == 0:
+                        self.__screen.addstr("[1] Input number of courses and courses information")
+                        self.__screen.addstr("\n[2] Cancel\n")
+                        self.__screen.refresh()
+                        # choice2 = int(
+                        #     input("Select the functionality you want to proceed (by input the corresponding number): "))
+                        self.__screen.addstr(
+                            "Select the functionality you want to proceed (by input the corresponding number): ")
+                        self.__screen.refresh()
+                        choice2 = int(self.__screen.getstr().decode())
+                        if choice2 == 1:
+                            self.__screen.clear()
+                            self.__screen.refresh()
+                            self.__input.input_number_of_courses(self)
+                            self.__screen.clear()
+                            self.__screen.refresh()
+                            for i in range(self.number_of_courses):
+                                # print(f"Course #{i + 1}:")
+                                self.__screen.addstr(f"Course #{i + 1}:\n")
+                                self.__screen.refresh()
+                                self.__input.input_course_information(self)
+                                self.__screen.clear()
+                                self.__screen.refresh()
+                            break
+                        elif choice2 == 2:
+                            # print("Good bye!")
+                            self.__screen.clear()
+                            curses.curs_set(0)
+                            print_center("Good bye!")
+                            curses.napms(1000)
+                            curses.curs_set(1)
+                            curses.endwin()
+                            # file_list = ['students.txt']
+                            # with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                            #     for file_name in file_list:
+                            #         new_zip.write(file_name)
+                            with open('students.dat', 'wb') as new_zip2:
+                                pickle.dump(len(self.students), new_zip2)
+                                for student in self.students:
+                                    pickle.dump(student, new_zip2)
+                                pickle.dump(len(self.courses), new_zip2)
+                                pickle.dump(len(self.marks), new_zip2)
+                            exit()
+                        else:
+                            # print("Error: Invalid choice.")
+                            self.print_error("Invalid choice")
+
+                # Check if there are data of marks.
+                #   If yes
+                #       Load it into the Engine.
+                #   Else
+                #       Jump directly to choice 3 (Use the data from students.dat and skip the input students information and courses information part).
+                number_of_mark_objects = pickle.load(new_zip)
+                if not number_of_mark_objects == 0:
+                    for i in range(number_of_mark_objects):
+                        mark = pickle.load(new_zip)
+                        self.marks.append(mark)
+                while len(self.marks) < len(self.students) * len(self.courses):
+                    self.__screen.clear()
+                    self.__screen.refresh()
+                    self.__screen.addstr("[1] Input mark for a course")
+                    self.__screen.addstr("\n[2] List students")
+                    self.__screen.addstr("\n[3] List courses")
+                    self.__screen.addstr("\n[4] Cancel\n")
+                    # choice3 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    self.__screen.addstr(
+                        "Select the functionality you want to proceed (by input the corresponding number): ")
+                    self.__screen.refresh()
+                    choice3 = int(self.__screen.getstr().decode())
+                    self.__screen.clear()
+                    self.__screen.refresh()
+                    if choice3 == 1:
+                        self.__input.input_mark(self)
+                    elif choice3 == 2:
+                        curses.curs_set(0)
+                        self.__output.list_students(self)
+                        curses.napms(self.number_of_students * 1000)
+                        curses.curs_set(1)
+                    elif choice3 == 3:
+                        curses.curs_set(0)
+                        self.__output.list_courses(self)
+                        curses.napms(self.number_of_courses * 1000)
+                        curses.curs_set(1)
+                    elif choice3 == 4:
+                        # print("Good bye!")
+                        self.__screen.clear()
+                        curses.curs_set(0)
+                        print_center("Good bye!")
+                        curses.napms(1000)
+                        curses.curs_set(1)
+                        curses.endwin()
+                        # file_list = ['students.txt', 'courses.txt']
+                        # with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                        #     for file_name in file_list:
+                        #         new_zip.write(file_name)
+                        with open('students.dat', 'wb') as new_zip2:
+                            pickle.dump(len(self.students), new_zip2)
+                            for student in self.students:
+                                pickle.dump(student, new_zip2)
+                            pickle.dump(len(self.courses), new_zip2)
+                            for course in self.courses:
+                                pickle.dump(course, new_zip2)
+                            pickle.dump(len(self.marks), new_zip2)
+                            for mark in self.marks:
+                                pickle.dump(mark, new_zip2)
+                        exit()
+                    else:
+                        # print("Error: invalid choice.")
+                        self.print_error("Invalid choice")
+
+            # Jump directly to choice 4 (Use the data from students.dat and skip all the input parts)
             while True:
                 self.__screen.clear()
                 self.__screen.refresh()
@@ -248,6 +420,8 @@ class Engine:
                             pickle.dump(len(self.students), new_zip)
                             for student in self.students:
                                 pickle.dump(student, new_zip)
+                            pickle.dump(len(self.courses), new_zip)
+                            pickle.dump(len(self.marks), new_zip)
                         exit()
                     else:
                         # print("Error: Invalid choice.")
@@ -303,9 +477,11 @@ class Engine:
                         #     for file_name in file_list:
                         #         new_zip.write(file_name)
                         with open('students.dat', 'wb') as new_zip:
+                            pickle.dump(len(self.students), new_zip)
                             pickle.dump(len(self.courses), new_zip)
                             for student in self.courses:
                                 pickle.dump(student, new_zip)
+                            pickle.dump(len(self.marks), new_zip)
                         exit()
                     else:
                         # print("Error: Invalid choice.")
@@ -370,6 +546,9 @@ class Engine:
                     pickle.dump(len(self.courses), new_zip)
                     for course in self.courses:
                         pickle.dump(course, new_zip)
+                    pickle.dump(len(self.marks), new_zip)
+                    for mark in self.marks:
+                        pickle.dump(mark, new_zip)
                 exit()
             else:
                 # print("Error: invalid choice.")
