@@ -89,15 +89,146 @@ class Engine:
                 self.number_of_students = int(len(sf) / 3)
                 for i in range(self.number_of_students):
                     input.input_student(self, sf[i * 3], sf[i * 3 + 1], sf[i * 3 + 2])
+            else:
+                while len(self.students) == 0:
+                    self.__screen.addstr("[1] Input number of students and students information")
+                    self.__screen.addstr("\n[2] Cancel\n")
+                    self.__screen.refresh()
+                    # choice2 = int(
+                    #     input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    self.__screen.addstr(
+                        "Select the functionality you want to proceed (by input the corresponding number): ")
+                    self.__screen.refresh()
+                    choice2 = int(self.__screen.getstr().decode())
+                    if choice2 == 1:
+                        self.__screen.clear()
+                        self.__screen.refresh()
+                        self.__input.input_number_of_students(self)
+                        self.__screen.clear()
+                        self.__screen.refresh()
+                        for i in range(self.number_of_students):
+                            # print(f"Student #{i + 1}:")
+                            self.__screen.addstr(f"Student #{i + 1}:\n")
+                            self.__screen.refresh()
+                            self.__input.input_student_information(self)
+                            self.__screen.clear()
+                            self.__screen.refresh()
+                        break
+                    elif choice2 == 2:
+                        # print("Good bye!")
+                        self.__screen.clear()
+                        curses.curs_set(0)
+                        print_center("Good bye!")
+                        curses.napms(1000)
+                        curses.curs_set(1)
+                        curses.endwin()
+                        file_list = ['courses.txt']
+                        with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                            for file_name in file_list:
+                                new_zip.write(file_name)
+                        for file_name in file_list:
+                            os.remove(file_name)
+                        exit()
+                    else:
+                        # print("Error: Invalid choice.")
+                        self.print_error("Invalid choice")
+                        break
             if os.path.isfile('courses.txt'):  # Load data from courses.txt
                 cf = open('courses.txt', 'r').read().splitlines()
                 self.number_of_courses = int(len(cf) / 3)
                 for i in range(self.number_of_courses):
                     input.input_course(self, cf[i * 3], cf[i * 3 + 1], int(cf[i * 3 + 2]))
+            else:
+                while len(self.courses) == 0:
+                    self.__screen.addstr("[1] Input number of courses and courses information")
+                    self.__screen.addstr("\n[2] Cancel\n")
+                    self.__screen.refresh()
+                    # choice2 = int(
+                    #     input("Select the functionality you want to proceed (by input the corresponding number): "))
+                    self.__screen.addstr(
+                        "Select the functionality you want to proceed (by input the corresponding number): ")
+                    self.__screen.refresh()
+                    choice2 = int(self.__screen.getstr().decode())
+                    if choice2 == 1:
+                        self.__screen.clear()
+                        self.__screen.refresh()
+                        self.__input.input_number_of_courses(self)
+                        self.__screen.clear()
+                        self.__screen.refresh()
+                        for i in range(self.number_of_courses):
+                            # print(f"Course #{i + 1}:")
+                            self.__screen.addstr(f"Course #{i + 1}:\n")
+                            self.__screen.refresh()
+                            self.__input.input_course_information(self)
+                            self.__screen.clear()
+                            self.__screen.refresh()
+                        break
+                    elif choice2 == 2:
+                        # print("Good bye!")
+                        self.__screen.clear()
+                        curses.curs_set(0)
+                        print_center("Good bye!")
+                        curses.napms(1000)
+                        curses.curs_set(1)
+                        curses.endwin()
+                        file_list = ['students.txt']
+                        with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                            for file_name in file_list:
+                                new_zip.write(file_name)
+                        for file_name in file_list:
+                            os.remove(file_name)
+                        exit()
+                    else:
+                        # print("Error: Invalid choice.")
+                        self.print_error("Invalid choice")
             if os.path.isfile('marks.txt'):  # Load data from marks.txt
                 mf = open('marks.txt', 'r').read().splitlines()
                 for i in range(int(len(mf) / 3)):
                     input.input_mark(self, mf[i * 3], mf[i * 3 + 1], float(mf[i * 3 + 2]))
+            while len(self.marks) < len(self.students) * len(self.courses):
+                self.__screen.clear()
+                self.__screen.refresh()
+                self.__screen.addstr("[1] Input mark for a course")
+                self.__screen.addstr("\n[2] List students")
+                self.__screen.addstr("\n[3] List courses")
+                self.__screen.addstr("\n[4] Cancel\n")
+                # choice3 = int(input("Select the functionality you want to proceed (by input the corresponding number): "))
+                self.__screen.addstr(
+                    "Select the functionality you want to proceed (by input the corresponding number): ")
+                self.__screen.refresh()
+                choice3 = int(self.__screen.getstr().decode())
+                self.__screen.clear()
+                self.__screen.refresh()
+                if choice3 == 1:
+                    self.__input.input_mark(self)
+                elif choice3 == 2:
+                    curses.curs_set(0)
+                    self.__output.list_students(self)
+                    curses.napms(self.number_of_students * 1000)
+                    curses.curs_set(1)
+                elif choice3 == 3:
+                    curses.curs_set(0)
+                    self.__output.list_courses(self)
+                    curses.napms(self.number_of_courses * 1000)
+                    curses.curs_set(1)
+                elif choice3 == 4:
+                    # print("Good bye!")
+                    self.__screen.clear()
+                    curses.curs_set(0)
+                    print_center("Good bye!")
+                    curses.napms(1000)
+                    curses.curs_set(1)
+                    curses.endwin()
+                    file_list = ['students.txt', 'courses.txt']
+                    with zipfile.ZipFile('students.dat', 'w') as new_zip:
+                        for file_name in file_list:
+                            new_zip.write(file_name)
+                    for file_name in file_list:
+                        os.remove(file_name)
+                    exit()
+                else:
+                    # print("Error: invalid choice.")
+                    self.print_error("Invalid choice")
             # Jump directly to choice 4 (Use directly the data from students.dat and skip all the input parts)
             while True:
                 self.__screen.clear()
@@ -219,6 +350,8 @@ class Engine:
                         with zipfile.ZipFile('students.dat', 'w') as new_zip:
                             for file_name in file_list:
                                 new_zip.write(file_name)
+                        for file_name in file_list:
+                            os.remove(file_name)
                         exit()
                     else:
                         # print("Error: Invalid choice.")
@@ -273,6 +406,8 @@ class Engine:
                         with zipfile.ZipFile('students.dat', 'w') as new_zip:
                             for file_name in file_list:
                                 new_zip.write(file_name)
+                        for file_name in file_list:
+                            os.remove(file_name)
                         exit()
                     else:
                         # print("Error: Invalid choice.")
@@ -330,6 +465,8 @@ class Engine:
                 with zipfile.ZipFile('students.dat', 'w') as new_zip:
                     for file_name in file_list:
                         new_zip.write(file_name)
+                for file_name in file_list:
+                    os.remove(file_name)
                 exit()
             else:
                 # print("Error: invalid choice.")
