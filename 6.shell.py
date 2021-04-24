@@ -1,21 +1,23 @@
 #! usr/bin/python3
 import os
 
+# Changing the Current Working Directory
+os.chdir('/home/')
 
-# Function to Get the current
-# working directory
-def current_path():
-    print("Current working directory: ")
-    print(os.getcwd())
-    print()
+# Decorating
+columns, rows = os.get_terminal_size()
+print("\n\n")
+print("--- Welcome to Duong Dang Hung's shell ---\n\n".center(columns, " "))
+print("*You are in the home directory, enter any command to execute*")
 
-
-# Changing the CWD
-os.chdir('/home/bell')
+# Running the terminal
 while True:
     command = input(">")
     if "cd" in command:
-        os.chdir(command[3:])
+        try:
+            os.chdir(command[3:])
+        except FileNotFoundError:
+            print("bash: cd: No such file or directory")
     elif command == 'exit':
         break
     else:
