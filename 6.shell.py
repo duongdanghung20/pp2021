@@ -2,18 +2,17 @@
 import os
 
 # Changing the Current Working Directory
-os.chdir('/home/')
+os.chdir(os.getenv("HOME"))
 
 # Decorating
 columns, rows = os.get_terminal_size()
 print("\n\n")
 print("--- Welcome to Duong Dang Hung's shell ---\n\n".center(columns, " "))
-print("*You are in the home directory, enter any command to execute*")
 
 # Running the terminal
 while True:
     command = input(">")
-    if "cd" in command:
+    if command.split()[0] == "cd":
         try:
             os.chdir(command[3:])
         except FileNotFoundError:
