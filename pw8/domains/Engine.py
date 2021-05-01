@@ -274,6 +274,7 @@ class Engine:
                     self.__screen.clear()
                     self.__screen.refresh()
                     if choice3 == 1:
+                        curses.curs_set(1)
                         self.__input.input_mark(self)
                     elif choice3 == 2:
                         curses.curs_set(0)
@@ -322,6 +323,7 @@ class Engine:
             while True:
                 self.__screen.clear()
                 self.__screen.refresh()
+                curses.curs_set(1)
                 self.__screen.addstr("[1] List students")
                 self.__screen.addstr("\n[2] List courses")
                 self.__screen.addstr("\n[3] Show marks of a course")
