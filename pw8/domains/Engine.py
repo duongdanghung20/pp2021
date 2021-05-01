@@ -19,8 +19,9 @@ class Engine:
     # List marks to store mark objects that are the marks of courses and students
     marks = []
 
-    number_of_students = None
-    number_of_courses = None
+    number_of_students = 0
+    number_of_courses = 0
+    list_of_numbers = []
 
     def __init__(self, scr):
         self.__screen = scr
@@ -37,8 +38,8 @@ class Engine:
         self.__screen.refresh()
 
     # Define a method to create a background thread and run it
-    def create_background_thread(self, mode, pickled_file, dumped_obj=None, loaded_obj=None, loaded_array=None):
-        bt = BackgroundThread(mode, pickled_file, dumped_obj, loaded_obj, loaded_array)
+    def create_background_thread(self, mode, pickled_file, dumped_obj=None, loaded_array=None):
+        bt = BackgroundThread(mode, pickled_file, dumped_obj, loaded_array)
         bt.start()
         bt.join()
 
@@ -114,7 +115,8 @@ class Engine:
                 #   Else
                 #       Ask the user to input students data or exit.
                 # self.number_of_students = pickle.load(new_zip)
-                self.create_background_thread(mode="load", pickled_file=new_zip, loaded_obj=self.number_of_students)
+                self.create_background_thread(mode="load", pickled_file=new_zip, loaded_array=self.list_of_numbers)
+                self.number_of_students = self.list_of_numbers[0]
                 if not self.number_of_students == 0:
                     for i in range(self.number_of_students):
                         # student = pickle.load(new_zip)
@@ -182,7 +184,8 @@ class Engine:
                 #   Else
                 #       Ask the user to input courses data or exit.
                 # self.number_of_courses = pickle.load(new_zip)
-                self.create_background_thread(mode="load", pickled_file=new_zip, loaded_obj=self.number_of_courses)
+                self.create_background_thread(mode="load", pickled_file=new_zip, loaded_array=self.list_of_numbers)
+                self.number_of_courses = self.list_of_numbers[1]
                 if not self.number_of_courses == 0:
                     for i in range(self.number_of_courses):
                         # course = pickle.load(new_zip)
@@ -248,8 +251,8 @@ class Engine:
                 #   Else
                 #       Jump directly to choice 3 (Use the data from students.dat and skip the input students information and courses information part).
                 # number_of_mark_objects = pickle.load(new_zip)
-                number_of_mark_objects = 0
-                self.create_background_thread(mode="load", pickled_file=new_zip, loaded_obj=number_of_mark_objects)
+                self.create_background_thread(mode="load", pickled_file=new_zip, loaded_array=self.list_of_numbers)
+                number_of_mark_objects = self.list_of_numbers[2]
                 if not number_of_mark_objects == 0:
                     for i in range(number_of_mark_objects):
                         # mark = pickle.load(new_zip)
