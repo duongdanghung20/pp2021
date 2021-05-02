@@ -125,8 +125,8 @@ class Engine:
                         self.create_background_thread(mode="load", pickled_file=new_zip, loaded_array=self.students)
                         self.students_id.append(self.students[i].get_sid())
                 else:
-                    curses.curs_set(1)
                     while len(self.students) == 0:
+                        curses.curs_set(1)
                         self.__screen.addstr("[1] Input number of students and students information")
                         self.__screen.addstr("\n[2] Cancel\n")
                         self.__screen.refresh()
@@ -195,6 +195,7 @@ class Engine:
                 else:
                     curses.curs_set(1)
                     while len(self.courses) == 0:
+                        curses.curs_set(1)
                         self.__screen.addstr("[1] Input number of courses and courses information")
                         self.__screen.addstr("\n[2] Cancel\n")
                         self.__screen.refresh()
@@ -262,6 +263,7 @@ class Engine:
                 while len(self.marks) < len(self.students) * len(self.courses):
                     self.__screen.clear()
                     self.__screen.refresh()
+                    curses.curs_set(1)
                     self.__screen.addstr("[1] Input mark for a course")
                     self.__screen.addstr("\n[2] List students")
                     self.__screen.addstr("\n[3] List courses")
@@ -422,6 +424,7 @@ class Engine:
                     self.__screen.clear()
                     self.__screen.refresh()
                 while len(self.courses) == 0:
+                    curses.curs_set(1)
                     self.__screen.addstr("[1] Input number of courses and courses information")
                     self.__screen.addstr("\n[2] Cancel\n")
                     self.__screen.refresh()
@@ -486,6 +489,7 @@ class Engine:
                     self.__screen.clear()
                     self.__screen.refresh()
                 while len(self.students) == 0:
+                    curses.curs_set(1)
                     self.__screen.addstr("[1] Input number of students and students information")
                     self.__screen.addstr("\n[2] Cancel\n")
                     self.__screen.refresh()
@@ -554,6 +558,7 @@ class Engine:
         while len(self.marks) < len(self.students) * len(self.courses):
             self.__screen.clear()
             self.__screen.refresh()
+            curses.curs_set(1)
             self.__screen.addstr("[1] Input mark for a course")
             self.__screen.addstr("\n[2] List students")
             self.__screen.addstr("\n[3] List courses")
@@ -611,6 +616,7 @@ class Engine:
         while True:
             self.__screen.clear()
             self.__screen.refresh()
+            curses.curs_set(1)
             self.__screen.addstr("[1] List students")
             self.__screen.addstr("\n[2] List courses")
             self.__screen.addstr("\n[3] Show marks of a course")
